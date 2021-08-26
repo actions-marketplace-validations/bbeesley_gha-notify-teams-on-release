@@ -13,7 +13,10 @@ runs:
   steps:
     - name: notify
       run: |
-        echo "${{ toJSON(github.event) }}"
+        echo "${{ github.event.body }}"
+        echo "${{ github.event.name }}"
+        echo "${{ github.event.release.name }}"
+        echo "${{ github.event.release.body }}"
         if [ "${{ github.event.release.name }}" != '' ]; then
           curl -X POST "${{ inputs.webhook-link }}" \
           --data '{"@context":"https://schema.org/extensions","@type":"MessageCard","themeColor":"d9534f","title":"Release ${{ github.event.release.name }} create on repository ${{ github.repository }}","text":"${{ github.event.release.body }}"}'
